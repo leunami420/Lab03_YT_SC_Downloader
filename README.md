@@ -1,16 +1,16 @@
-# YouTube and SoundCloud Downloader
+# 🎥🎵 YouTube and SoundCloud Downloader 
 
-YouTube and SoundCloud Downloader is a simple Python application that allows you to download videos and audio from YouTube and SoundCloud with just a few clicks. The app uses the youtube_dl module to download the content and a custom GUI built with tkinter and customtkinter for the user interface.
+YouTube and SoundCloud Downloader is a simple Python application that allows you to download videos and audio from YouTube and SoundCloud with just a few clicks. The app uses the `youtube_dl` module to download the content and a custom GUI built with `tkinter` and `customtkinter` for the user interface.
 
-## Installation
+## 🚀 Installation
 
-To use the app, you must have Python 3 and the youtube_dl module installed on your computer. To install youtube_dl, run the following command in your terminal:
+To use the app, you must have Python 3 and the `youtube_dl` module installed on your computer. To install `youtube_dl`, run the following command in your terminal:
 
 ```bash
 pip install youtube_dl
 ```
 
-You also need to have the tkinter and customtkinter modules installed. These modules come pre-installed with Python 3 on most operating systems, but if you encounter any issues, you can install them using pip:
+You also need to have the `tkinter` and `customtkinter` modules installed. These modules come pre-installed with Python 3 on most operating systems, but if you encounter any issues, you can install them using pip:
 
 ```bash
 pip install tkinter
@@ -23,7 +23,7 @@ Once you have all the dependencies installed, you can simply download the `main.
 python main.py
 ```
 
-## Usage
+## 💻 Usage
 
 When you run the app, a simple GUI will appear that prompts you to enter a valid YouTube or SoundCloud URL. You can also select the desired format (video or audio) from a dropdown menu.
 
@@ -35,7 +35,7 @@ Once the download is complete, a message will appear indicating that the content
 
 If the app appears to freeze during the download process, it is likely that it is busy downloading a large file. Please be patient and wait for the download to complete.
 
-## Future Implementations
+## 🚀 Future Implementations
 
 Here are a few ideas for future implementations of the app:
 
@@ -47,6 +47,6 @@ Here are a few ideas for future implementations of the app:
 - Add support for downloading subtitles or closed captions for downloaded videos.
 - Implement a feature to download only a specific portion of a video (e.g. download only the first 30 seconds of a music video).
 
-## Disclaimer
+## ⚠️ Disclaimer
 
 This application is intended for personal use only. Downloading copyrighted material without permission is illegal in most countries, and we do not condone or encourage such activity. Please use this app responsibly and follow all applicable laws and regulations.
