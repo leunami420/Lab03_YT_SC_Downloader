@@ -1,3 +1,4 @@
+
 # 🎥🎵 YouTube and SoundCloud Downloader 
 
 YouTube and SoundCloud Downloader is a simple Python application that allows you to download videos and audio from YouTube and SoundCloud with just a few clicks. The app uses the `youtube_dl` module to download the content and a custom GUI built with `tkinter` and `customtkinter` for the user interface.
@@ -35,6 +36,8 @@ Once the download is complete, a message will appear indicating that the content
 
 If the app appears to freeze during the download process, it is likely that it is busy downloading a large file. Please be patient and wait for the download to complete.
 
+![Screenshot of a downloaded Soundcloud Song](https://i.imgur.com/gHMIeqC.png)
+
 ## 🚀 Future Implementations
 
 Here are a few ideas for future implementations of the app:
@@ -50,3 +53,22 @@ Here are a few ideas for future implementations of the app:
 ## ⚠️ Disclaimer
 
 This application is intended for personal use only. Downloading copyrighted material without permission is illegal in most countries, and we do not condone or encourage such activity. Please use this app responsibly and follow all applicable laws and regulations.
+
+## 🐛 Known Bugs
+
+If you encounter the error `"Unable to extract uploader id; please report this issue on https://github.com/yt-dlp/yt-dlp/issues?q=` try the following steps:
+
+1. Confirm that you are on the latest version of yt-dlp by running `yt-dlp -U` in your command prompt or terminal.
+2. If you are still encountering the error, uninstall youtube_dl by running `pip uninstall youtube_dl`.
+3. Install youtube-dl via pip with the following command: `pip install --upgrade --force-reinstall "git+https://github.com/ytdl-org/youtube-dl.git"`
+
+This should resolve the issue.
+
+## Updates
+
+### Version 1.1 (2023-05-02)
+- Added support for downloading SoundCloud tracks and playlists
+- Added a thumbnail image, title, author and file format preview for downloaded files
+
+### Version 1.0 (2023-04-30)
+- Initial release with support for downloading YouTube videos and playlists.
