@@ -45,7 +45,6 @@ Here are a few ideas for future implementations of the app:
 - Add support for downloading content from other popular websites like Vimeo, Dailymotion, and Facebook.
 - Allow users to specify the output directory for downloaded content instead of using the default "downloads" directory in the app's working directory.
 - Implement a feature to automatically convert downloaded video files to different formats (e.g. from MP4 to AVI or from MOV to WMV).
-- Add a feature to extract audio from video files and save them as separate files (e.g. extract the audio from a music video and save it as an MP3 file).
 - Implement a feature to search for and download entire playlists or channels from YouTube or Soundcloud.
 - Add support for downloading subtitles or closed captions for downloaded videos.
 - Implement a feature to download only a specific portion of a video (e.g. download only the first 30 seconds of a music video).
