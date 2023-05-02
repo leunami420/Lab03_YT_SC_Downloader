@@ -44,7 +44,7 @@ python main.py
 
 When you run the app, a simple GUI will appear that prompts you to enter a valid YouTube or SoundCloud URL. You can also select the desired format (video or audio) from a dropdown menu.
 
-![Screenshot of a downloaded YoutTube Video](https://imgur.com/EXob1RI.png)
+![Screenshot of a downloaded YoutTube Video](https://imgur.com/VIvLx9R.png)
 
 After entering a valid URL and selecting the desired format, click the "Download" button to start the download process. The app will automatically download the highest possible quality format for the selected type.
 
@@ -55,16 +55,25 @@ If the app appears to freeze during the download process, it is likely that it i
 ![List of supported file formats](https://imgur.com/3XqhmDE.png)
 
 
+## 🆕 Updates 🎉
 
-## 🚀 Future Implementations
+What's New
 
-Here are a few ideas for future implementations of the app:
+### Version 1.2 (2023-05-03)
+- Customizable Download Destination: You can now choose where your downloaded files will be saved. Simply click the "Change" button in the Settings tab and select a new folder.
+- Slider Option to Not Open Output Directory: You can now choose whether or not to automatically open the output directory after downloading content using the slider in the Settings tab.
+- Automatic File Format Conversion: You can now convert your downloaded files to mp3, wav, ogg, mp4, ogv, webm or avi format. The format conversion feature is available in the Download tab.
+- Improved GUI: The GUI has been updated to provide more detailed information about the downloaded content, including thumbnail images, titles, authors and file format previews.
+- Improved Code Structure and Readability: I've improved the code structure and made it more readable to make it easier for developers to work with the script.
 
-- Add support for downloading content from other popular websites like Vimeo, Dailymotion, and Facebook.
-- Allow users to specify the output directory for downloaded content instead of using the default "downloads" directory in the app's working directory.
-- Implement a feature to search for and download entire playlists or channels from YouTube or Soundcloud.
-- Add support for downloading subtitles or closed captions for downloaded videos.
-- Implement a feature to download only a specific portion of a video (e.g. download only the first 30 seconds of a music video).
+### Version 1.1 (2023-05-01)
+- Added support for downloading SoundCloud tracks and playlists
+- Added a thumbnail image, title, author and file format preview for downloaded files
+
+### Version 1.0 (2023-04-30)
+- Initial release with support for downloading YouTube videos and playlists.
+
+
 
 ## ⚠️ Disclaimer
 
@@ -80,17 +89,3 @@ If you encounter the error `"Unable to extract uploader id; please report this i
 
 This should resolve the issue.
 
-## 🆕 Updates 🎉
-
-### Version 1.2 (2023-05-02)
-- Added a slider option to not open the output directory after downloading content
-- Updated the GUI to provide more detailed information about the downloaded content
-- Improved the code structure and readability
-- Implemented a feature to automatically convert downloaded files to a desired format (mp3,wav,ogg,mp4,ogv,webm,avi).
-
-### Version 1.1 (2023-05-01)
-- Added support for downloading SoundCloud tracks and playlists
-- Added a thumbnail image, title, author and file format preview for downloaded files
-
-### Version 1.0 (2023-04-30)
-- Initial release with support for downloading YouTube videos and playlists.

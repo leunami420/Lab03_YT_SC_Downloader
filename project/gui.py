@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
 import os
+import shutil
 import subprocess
-import time
-from tkinter import StringVar
+from tkinter import StringVar, filedialog
 import MediaConverter
 import requests
 from io import BytesIO
@@ -15,18 +15,9 @@ import youtube_dl
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("dark-blue")
 
-def open_folder_with_explorer():
-    currentPath = os.getcwd()
-    folderName = 'downloads'
-    path = os.path.join(currentPath, folderName)
-    if os.name == 'nt':
-        # For Windows
-        subprocess.Popen(f'explorer "{path}"')
-    elif os.name == 'posix':
-        # For Mac
-        subprocess.Popen(['open', path])
-    else:
-        raise OSError(f'Unsupported platform: {os.name}')
+downloadPath = os.path.join(os.getcwd(), 'downloads')
+
+
 
 class App(customtkinter.CTk):
 
@@ -36,7 +27,7 @@ class App(customtkinter.CTk):
         # GUI Window Settings
         #----------------
         self.title("YTDownloader")
-        self.geometry("720x680")
+        self.geometry("720x700")
         self.iconbitmap("image.ico")
         # ----------------
         # Media Info
@@ -55,6 +46,7 @@ class App(customtkinter.CTk):
         self.selectedFormat = "Video - Original"
         self.openFolder = True
         self.desiredExt = ""
+        global downloadPath
         # ----------------
         # Update Media Information
         # input = MediaUrl
@@ -70,88 +62,12 @@ class App(customtkinter.CTk):
                 self.ext = video_info.get("ext")  # file extension of the video/audio
                 self.filesize = video_info.get("filesize")  # size of the video/audio file in bytes
 
-        # ----------------
-        # Place Title Label in GUI
-        # ----------------
-        self.label = customtkinter.CTkLabel(master=self, text="YouTube and SoundCloud Downloader")
-        self.label.pack()
 
         # ----------------
         # Update Info&Thumbnail upon Entry
         def callback(str_var):
             updateMediaInfo(str_var.get())
             updateThumbnail()
-
-        # ----------------
-        # URL Entry in GUI and callback
-        # ----------------
-        url_var = StringVar()
-        self.url_entry = customtkinter.CTkEntry(master=self, placeholder_text="Enter a valid URL", width=500, textvariable=url_var)
-        url_var.trace("w", lambda name, index, mode, url_var=url_var: callback(url_var))
-        self.url_entry.pack(padx=10, pady=10)
-
-        # ----------------
-        # Hook Method that reads the Download Status
-        # ----------------
-        def updateProgress(d):
-            if 'status' in d:
-                status = d['status']
-                if status == 'downloading' and '_percent_str' in d:
-                    percent = d['_percent_str']
-                    self.label.configure(text=f"{percent}")
-                if status == 'finished':
-                    #self.downloadedFileExt =
-                    directory = "tempfile"
-                    for file in os.listdir(directory):
-                        self.downloadedFileExt= os.path.splitext(file)[-1]
-                    self.downloadedFileExt = self.downloadedFileExt[1:]
-                    # if the format is already the right one
-                    if self.desiredExt == self.downloadedFileExt:
-                        MediaConverter.movetoDownloads()
-                        self.label.configure(text="Downloaded!")
-                    # if desired ext specified convert the file
-                    if self.desiredExt != "":
-                        if "Audio" in self.selectedFormat:
-                            MediaConverter.convert_audio_format(self.videotitle, self.downloadedFileExt, self.desiredExt)
-                        if "Video" in self.selectedFormat:
-                            MediaConverter.convert_video_format(self.videotitle, self.downloadedFileExt, self.desiredExt)
-                    if self.desiredExt == "":
-                        MediaConverter.movetoDownloads()
-                        self.label.configure(text="Downloaded!")
-                    if self.openFolder:
-                        open_folder_with_explorer()
-
-        # ----------------
-        # Place Status Label in GUI
-        # ----------------
-        self.label = customtkinter.CTkLabel(self, text="Enter a Soundcloud or Youtube URL")
-        self.label.pack()
-
-        # ----------------
-        # Callback Function to Set The Download OptionMenu
-        # inserts = "Audio" or "Video"
-        # ----------------
-        def optionmenu_callback(choice):
-            self.selectedFormat= choice
-            if "Original" not in choice:
-                self.desiredExt = choice[8:]
-            else:
-                self.desiredExt = ""
-        # ----------------
-        # Place OptionMenu in GUI
-        # ----------------
-        self.optionmenu = customtkinter.CTkOptionMenu(self, values=["Audio - Original",
-                                                                    "Audio - mp3",
-                                                                    "Audio - wav",
-                                                                    "Audio - ogg",
-                                                                    "Video - Original",
-                                                                    "Video - mp4",
-                                                                    "Video - ogv",
-                                                                    "Video - webm",
-                                                                    "Video - avi",],
-                                                 command=optionmenu_callback)
-        self.optionmenu.set("Select format")
-        self.optionmenu.pack(padx=10, pady=10)
 
         # ----------------
         # Callback Function on switch use
@@ -164,19 +80,29 @@ class App(customtkinter.CTk):
                 self.openFolder = True
 
         # ----------------
-        # Place Switch to OpenDLPath in GUI
+        # Callback Function to Set The Download OptionMenu
+        # inserts = "Audio" or "Video"
         # ----------------
-        self.path_folder_switch = customtkinter.StringVar(value="on")
-        self.path_folder_switch = customtkinter.CTkSwitch(self, text="Open Folder after Download", command=switch_event,
-                                         variable=self.path_folder_switch, onvalue="on", offvalue="off")
-        self.path_folder_switch.pack()
+
+        def optionmenu_callback(choice):
+            self.selectedFormat = choice
+            if "Original" not in choice:
+                self.desiredExt = choice[8:]
+            else:
+                self.desiredExt = ""
+
+        # ----------------
+        # Place Title Label in GUI
+        # ----------------
+        self.label = customtkinter.CTkLabel(master=self, text="YouTube and SoundCloud Downloader")
+        self.label.pack()
 
         # ----------------
         # ButtonEventMethod when Download is pressed
         # ----------------
         def button_find_event():
             for filename in os.listdir("tempfile"):
-                os.remove("tempfile/"+filename)
+                os.remove("tempfile/" + filename)
             for filename in os.listdir("."):
                 if filename == "thumbnail.png":
                     os.remove(filename)
@@ -224,10 +150,121 @@ class App(customtkinter.CTk):
                     ydl.download([entry])
 
         # ----------------
-        # Place the Download Button in GUI
+        # URL Entry in GUI and callback
         # ----------------
-        self.button_find = customtkinter.CTkButton(self, text="Download", command=button_find_event)
-        self.button_find.pack(padx=10, pady=10)
+        url_var = StringVar()
+        self.url_entry = customtkinter.CTkEntry(master=self, placeholder_text="Enter a valid URL", width=500, textvariable=url_var)
+        url_var.trace("w", lambda name, index, mode, url_var=url_var: callback(url_var))
+        self.url_entry.pack(padx=10, pady=10)
+
+        # ----------------
+        # Hook Method that reads the Download Status
+        # ----------------
+        def updateProgress(d):
+            if 'status' in d:
+                status = d['status']
+                if status == 'downloading' and '_percent_str' in d:
+                    percent = d['_percent_str']
+                    self.label.configure(text=f"{percent}")
+                if status == 'finished':
+                    #self.downloadedFileExt =
+                    directory = "tempfile"
+                    for file in os.listdir(directory):
+                        self.downloadedFileExt= os.path.splitext(file)[-1]
+                    self.downloadedFileExt = self.downloadedFileExt[1:]
+                    # if the format is already the right one
+                    if self.desiredExt == self.downloadedFileExt:
+                        MediaConverter.movetoDownloads()
+                        self.label.configure(text="Downloaded!")
+                    # if desired ext specified convert the file
+                    if self.desiredExt != "":
+                        if "Audio" in self.selectedFormat:
+                            MediaConverter.convert_audio_format(self.videotitle, self.downloadedFileExt, self.desiredExt)
+                        if "Video" in self.selectedFormat:
+                            MediaConverter.convert_video_format(self.videotitle, self.downloadedFileExt, self.desiredExt)
+                    if self.desiredExt == "":
+                        MediaConverter.movetoDownloads()
+                        self.label.configure(text="Downloaded!")
+                    self.WriteToDownload_dir_andOpen()
+
+        # ----------------
+        # Place Status Label in GUI
+        # ----------------
+        self.label = customtkinter.CTkLabel(self, text="Enter a Soundcloud or Youtube URL")
+        self.label.pack()
+
+        # ----------------
+        # Tab in Gui [Download][Settings]
+        # ----------------
+        class MyTabView(customtkinter.CTkTabview):
+            def __init__(self, master, **kwargs):
+                super().__init__(master, **kwargs)
+                global downloadPath
+
+                # create tabs
+                self.add("Download")
+                self.add("Settings")
+
+                # ----------------
+                # Place OptionMenu in GUI [Download]
+                # ----------------
+                self.optionmenu = customtkinter.CTkOptionMenu(master=self.tab("Download"), values=["Audio - Original",
+                                                                            "Audio - mp3",
+                                                                            "Audio - wav",
+                                                                            "Audio - ogg",
+                                                                            "Video - Original",
+                                                                            "Video - mp4",
+                                                                            "Video - ogv",
+                                                                            "Video - webm",
+                                                                            "Video - avi", ],
+                                                              command=optionmenu_callback)
+                self.optionmenu.set("Select format")
+                self.optionmenu.pack(padx=10, pady=10)
+                # ----------------
+                # Place the Download Button in GUI [Download]
+                # ----------------
+                self.button_find = customtkinter.CTkButton(master=self.tab("Download"), text="Download", command=button_find_event)
+                self.button_find.pack(padx=10, pady=10)
+
+                # ----------------
+                # Place Switch to OpenDLPath in GUI [Settings]
+                # ----------------
+                self.path_folder_switch = customtkinter.StringVar(value="on")
+                self.path_folder_switch = customtkinter.CTkSwitch(master=self.tab("Settings"),
+                                                                  text="Open Folder after Download",
+                                                                  command=switch_event,
+                                                                  variable=self.path_folder_switch, onvalue="on",
+                                                                  offvalue="off")
+                self.path_folder_switch.pack(padx=10, pady=10)
+
+                # ----------------
+                # Label [Settings]
+                # ----------------
+                self.path_label = customtkinter.CTkLabel(master=self.tab("Settings"), text="Files will downloaded to :")
+                self.path_label.pack(padx=20, pady=10)
+                # ----------------
+                # Current DownloadFolder [Settings]
+                # ----------------
+                self.path_label = customtkinter.CTkLabel(master=self.tab("Settings"), text=f"{downloadPath}")
+                self.path_label.pack(padx=10, pady=10)
+                # ----------------
+                # Choose new Downloadfolder [Setting] callback()
+                # ----------------
+                def switchDownloadFolder():
+                    global downloadPath
+                    downloadPath = filedialog.askdirectory()
+                    self.path_label.configure(text=downloadPath)
+                # ----------------
+                # Change Download Folder [Settings]
+                # ----------------
+                self.button_folder = customtkinter.CTkButton(master=self.tab("Settings"), text="Change",
+                                                           command=switchDownloadFolder)
+                self.button_folder.pack(padx=10, pady=10)
+
+
+
+        self.tab_view = MyTabView(master=self, height=100)
+        self.tab_view.pack()
 
         # ----------------
         # Metadata Preview Section
@@ -268,7 +305,7 @@ class App(customtkinter.CTk):
                     self.thumbnail = customtkinter.CTkImage(Image.open(checkforThumbnail()),
                                                             size=(getThumbnailSizeWidth(), getThumbnailSizeHeight()))
                     self.bg_image_label = customtkinter.CTkLabel(self, image=self.thumbnail, text="", width=300)
-                    self.bg_image_label.pack(padx=10, pady=10)
+                    self.bg_image_label.pack(padx=10, pady=30)
 
                     try:
                         self.thumbnail_title.destroy()
@@ -281,4 +318,24 @@ class App(customtkinter.CTk):
 
 
 
-
+    def WriteToDownload_dir_andOpen(self):
+        global downloadPath
+        downloads = os.path.join(os.getcwd(), 'downloads')
+        path = downloadPath
+        print(downloadPath)
+        if downloads != path:
+            files = os.listdir(downloads)
+            for filename in files:
+                src_file = os.path.join(downloads, filename)
+                dest_file = os.path.join(path, filename)
+                # Use shutil.move() to move the file
+                shutil.move(src_file, dest_file)
+        if self.openFolder:
+            if os.name == 'nt':
+                # For Windows
+                os.startfile(path)
+            elif os.name == 'posix':
+                # For Mac
+                subprocess.Popen(['open', path])
+            else:
+                raise OSError(f'Unsupported platform: {os.name}')
