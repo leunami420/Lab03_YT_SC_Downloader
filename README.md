@@ -18,23 +18,40 @@ pip install tkinter
 pip install customtkinter
 ```
 
+For the conversion process the app requires moviepy:
+
+```bash
+Copy code
+pip install moviepy
+```
+
+To install PIL, run the following command in your terminal:
+
+```bash
+Copy code
+pip install pillow
+```
+
 Once you have all the dependencies installed, you can simply download the `main.py` file from this repository and run it with Python:
 
 ```bash
 python main.py
 ```
 
+
+
 ## 💻 Usage
 
 When you run the app, a simple GUI will appear that prompts you to enter a valid YouTube or SoundCloud URL. You can also select the desired format (video or audio) from a dropdown menu.
 
-![Screenshot of a downloaded Soundcloud Song](https://imgur.com/9BH7fif.png)
+![Screenshot of a downloaded YoutTube Video](https://imgur.com/EXob1RI.png)
 
 After entering a valid URL and selecting the desired format, click the "Download" button to start the download process. The app will automatically download the highest possible quality format for the selected type.
 
 Once the download is complete, a message will appear indicating that the content has been downloaded. The downloaded content will be saved to the `downloads` folder in the app's working directory.
 
 If the app appears to freeze during the download process, it is likely that it is busy downloading a large file. Please be patient and wait for the download to complete.
+![List of supported file formats](https://imgur.com/G7w2NYs.png)
 
 
 
@@ -44,7 +61,6 @@ Here are a few ideas for future implementations of the app:
 
 - Add support for downloading content from other popular websites like Vimeo, Dailymotion, and Facebook.
 - Allow users to specify the output directory for downloaded content instead of using the default "downloads" directory in the app's working directory.
-- Implement a feature to automatically convert downloaded video files to different formats (e.g. from MP4 to AVI or from MOV to WMV).
 - Implement a feature to search for and download entire playlists or channels from YouTube or Soundcloud.
 - Add support for downloading subtitles or closed captions for downloaded videos.
 - Implement a feature to download only a specific portion of a video (e.g. download only the first 30 seconds of a music video).
@@ -69,6 +85,7 @@ This should resolve the issue.
 - Added a slider option to not open the output directory after downloading content
 - Updated the GUI to provide more detailed information about the downloaded content
 - Improved the code structure and readability
+- Implemented a feature to automatically convert downloaded files to a desired format (mp3,wav,ogg,mp4,ogv,webm,avi).
 
 ### Version 1.1 (2023-05-01)
 - Added support for downloading SoundCloud tracks and playlists
