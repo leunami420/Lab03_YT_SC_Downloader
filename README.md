@@ -65,7 +65,12 @@ This should resolve the issue.
 
 ## Updates
 
-### Version 1.1 (2023-05-02)
+### Version 1.2.0 (2023-05-02)
+- Added a slider option to not open the output directory after downloading content
+- Updated the GUI to provide more detailed information about the downloaded content
+- Improved the code structure and readability
+
+### Version 1.1 (2023-05-01)
 - Added support for downloading SoundCloud tracks and playlists
 - Added a thumbnail image, title, author and file format preview for downloaded files
 
