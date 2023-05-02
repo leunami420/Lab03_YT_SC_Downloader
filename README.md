@@ -52,7 +52,7 @@ Once the download is complete, a message will appear indicating that the content
 
 If the app appears to freeze during the download process, it is likely that it is busy downloading a large file. Please be patient and wait for the download to complete.
 
-![List of supported file formats](https://imgur.com/G7w2NYs.png)
+![List of supported file formats](https://imgur.com/3XqhmDE.png)
 
 
 
