@@ -89,3 +89,4 @@ If you encounter the error `"Unable to extract uploader id; please report this i
 
 This should resolve the issue.
 
+PyDownloader was developed by me and is released under the MIT License.
