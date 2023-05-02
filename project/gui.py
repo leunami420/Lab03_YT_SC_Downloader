@@ -8,11 +8,9 @@ import customtkinter
 import youtube_dl
 
 
-
-
 #GUI Settings
 customtkinter.set_appearance_mode("System")
-customtkinter.set_default_color_theme("blue")
+customtkinter.set_default_color_theme("dark-blue")
 
 def open_folder_with_explorer():
     currentPath = os.getcwd()
@@ -27,13 +25,13 @@ def open_folder_with_explorer():
     else:
         raise OSError(f'Unsupported platform: {os.name}')
 
-
 class App(customtkinter.CTk):
 
     def __init__(self):
         super().__init__()
         self.selectedFormat = "Video"
         self.geometry("720x600")
+        self.iconbitmap("image.ico")
         self.thumbnail_url = ""
         self.videotitle = ""
         self.author = ""
@@ -41,12 +39,10 @@ class App(customtkinter.CTk):
         self.format_id = ""  # format id of the video/audio
         self.ext = ""  # file extension of the video/audio
         self.filesize = "" # size of the video/audio file in bytes
-        self.title("YouTube and SoundCloud Downloader")
+        self.title("Downloader")
 
         self.label = customtkinter.CTkLabel(master=self, text="YouTube and SoundCloud Downloader")
         self.label.pack()
-
-
 
         self.url_entry = customtkinter.CTkEntry(master=self, placeholder_text="Enter a valid URL", width=500)
         self.url_entry.pack(padx=10, pady=10)
@@ -176,8 +172,7 @@ class App(customtkinter.CTk):
                     except Exception as e:
                         print(e)
                     def returnThumbnailInfo():
-                        return f"{self.author}"+"\n"+f"{self.videotitle}"+"\n file format : "+f"{self.ext}"
-
+                        return f"{self.author}"+"\n"+f"{self.videotitle}"+"\n file format : "+f"{self.ext}"+"\n" + f"{self.filesize}"
                     self.thumbnail_title = customtkinter.CTkLabel(self, text=returnThumbnailInfo())
                     self.thumbnail_title.pack()
 
