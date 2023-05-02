@@ -28,7 +28,7 @@ python main.py
 
 When you run the app, a simple GUI will appear that prompts you to enter a valid YouTube or SoundCloud URL. You can also select the desired format (video or audio) from a dropdown menu.
 
-![Screenshot of the GUI](https://imgur.com/o3SGTVc.png)
+![Screenshot of a downloaded Soundcloud Song](https://i.imgur.com/gHMIeqC.png)
 
 After entering a valid URL and selecting the desired format, click the "Download" button to start the download process. The app will automatically download the highest possible quality format for the selected type.
 
@@ -36,7 +36,7 @@ Once the download is complete, a message will appear indicating that the content
 
 If the app appears to freeze during the download process, it is likely that it is busy downloading a large file. Please be patient and wait for the download to complete.
 
-![Screenshot of a downloaded Soundcloud Song](https://i.imgur.com/gHMIeqC.png)
+
 
 ## 🚀 Future Implementations
 
