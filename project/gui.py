@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import os
 import subprocess
+import time
 from tkinter import StringVar
 import MediaConverter
 import requests
@@ -46,6 +47,7 @@ class App(customtkinter.CTk):
         self.duration = ""
         self.format_id = ""  # format id of the video/audio
         self.ext = ""  # file extension of the video/audio
+        self.downloadedFileExt = ""
         self.filesize = ""  # size of the video/audio file in bytes
         # ----------------
         # Standard Settings
@@ -97,17 +99,22 @@ class App(customtkinter.CTk):
                 if status == 'downloading' and '_percent_str' in d:
                     percent = d['_percent_str']
                     self.label.configure(text=f"{percent}")
-                elif status == 'finished':
+                if status == 'finished':
+                    #self.downloadedFileExt =
+                    directory = "tempfile"
+                    for file in os.listdir(directory):
+                        self.downloadedFileExt= os.path.splitext(file)[-1]
+                    self.downloadedFileExt = self.downloadedFileExt[1:]
                     # if the format is already the right one
-                    if self.desiredExt == self.ext:
+                    if self.desiredExt == self.downloadedFileExt:
                         MediaConverter.movetoDownloads()
                         self.label.configure(text="Downloaded!")
                     # if desired ext specified convert the file
                     if self.desiredExt != "":
                         if "Audio" in self.selectedFormat:
-                            MediaConverter.convert_audio_format(self.videotitle, self.ext, self.desiredExt)
+                            MediaConverter.convert_audio_format(self.videotitle, self.downloadedFileExt, self.desiredExt)
                         if "Video" in self.selectedFormat:
-                            MediaConverter.convert_video_format(self.videotitle, self.ext, self.desiredExt)
+                            MediaConverter.convert_video_format(self.videotitle, self.downloadedFileExt, self.desiredExt)
                     if self.desiredExt == "":
                         MediaConverter.movetoDownloads()
                         self.label.configure(text="Downloaded!")
@@ -168,6 +175,8 @@ class App(customtkinter.CTk):
         # ButtonEventMethod when Download is pressed
         # ----------------
         def button_find_event():
+            for filename in os.listdir("tempfile"):
+                os.remove("tempfile/"+filename)
             for filename in os.listdir("."):
                 if filename == "thumbnail.png":
                     os.remove(filename)
