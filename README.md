@@ -80,9 +80,9 @@ If you encounter the error `"Unable to extract uploader id; please report this i
 
 This should resolve the issue.
 
-## Updates
+## 🆕 Updates 🎉
 
-### Version 1.2.0 (2023-05-02)
+### Version 1.2 (2023-05-02)
 - Added a slider option to not open the output directory after downloading content
 - Updated the GUI to provide more detailed information about the downloaded content
 - Improved the code structure and readability
