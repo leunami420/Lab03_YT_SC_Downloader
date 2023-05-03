@@ -40,6 +40,7 @@ class App(customtkinter.CTk):
         self.ext = ""  # file extension of the video/audio
         self.downloadedFileExt = ""
         self.filesize = ""  # size of the video/audio file in bytes
+        self.filename = ""
         # ----------------
         # Standard Settings
         # ----------------
@@ -102,7 +103,8 @@ class App(customtkinter.CTk):
         # ----------------
         def button_find_event():
             for filename in os.listdir("tempfile"):
-                os.remove("tempfile/" + filename)
+                if filename != ".gitkeep":
+                    os.remove("tempfile/" + filename)
             for filename in os.listdir("."):
                 if filename == "thumbnail.png":
                     os.remove(filename)
@@ -170,7 +172,9 @@ class App(customtkinter.CTk):
                     #self.downloadedFileExt =
                     directory = "tempfile"
                     for file in os.listdir(directory):
-                        self.downloadedFileExt= os.path.splitext(file)[-1]
+                        if file != ".gitkeep":
+                            self.filename = os.fsdecode(file)
+                            self.downloadedFileExt= os.path.splitext(file)[-1]
                     self.downloadedFileExt = self.downloadedFileExt[1:]
                     # if the format is already the right one
                     if self.desiredExt == self.downloadedFileExt:
@@ -179,9 +183,9 @@ class App(customtkinter.CTk):
                     # if desired ext specified convert the file
                     if self.desiredExt != "":
                         if "Audio" in self.selectedFormat:
-                            MediaConverter.convert_audio_format(self.videotitle, self.downloadedFileExt, self.desiredExt)
+                            MediaConverter.convert_audio_format(self.filename, self.downloadedFileExt, self.desiredExt)
                         if "Video" in self.selectedFormat:
-                            MediaConverter.convert_video_format(self.videotitle, self.downloadedFileExt, self.desiredExt)
+                            MediaConverter.convert_video_format(self.filename, self.downloadedFileExt, self.desiredExt)
                     if self.desiredExt == "":
                         MediaConverter.movetoDownloads()
                         self.label.configure(text="Downloaded!")
@@ -326,10 +330,11 @@ class App(customtkinter.CTk):
         if downloads != path:
             files = os.listdir(downloads)
             for filename in files:
-                src_file = os.path.join(downloads, filename)
-                dest_file = os.path.join(path, filename)
-                # Use shutil.move() to move the file
-                shutil.move(src_file, dest_file)
+                if filename != ".gitkeep":
+                    src_file = os.path.join(downloads, filename)
+                    dest_file = os.path.join(self.videotitle, filename)
+                    # Use shutil.move() to move the file
+                    shutil.move(src_file, dest_file)
         if self.openFolder:
             if os.name == 'nt':
                 # For Windows

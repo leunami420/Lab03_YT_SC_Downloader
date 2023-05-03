@@ -14,8 +14,9 @@ def movetoDownloads():
     # Get the list of files in the temporary directory
     files = os.listdir(tempfile_path)
 
-
-    file_name = files[0]
+    for file in os.listdir(tempfile_path):
+        if file != ".gitkeep":
+            file_name = file
     file_path = os.path.join(tempfile_path, file_name)
     download_file_path = os.path.join(download_path, file_name)
 
@@ -42,7 +43,7 @@ def convert_audio_format(input_name, input_format, output_format):
     currentPath = os.getcwd()
     folderName = 'tempfile'
     tempfile_path = os.path.join(currentPath,folderName)
-    input_file = input_name+"."+input_format
+    input_file = input_name
     input_path = os.path.join(tempfile_path, input_file)
     print("input path : "+input_path)
 
@@ -76,7 +77,7 @@ def convert_video_format(input_name, input_format, output_format):
     currentPath = os.getcwd()
     folderName = 'tempfile'
     tempfile_path = os.path.join(currentPath,folderName)
-    input_file = input_name+"."+input_format
+    input_file = input_name
     input_path = os.path.join(tempfile_path, input_file)
     print("input path : "+input_path)
 
